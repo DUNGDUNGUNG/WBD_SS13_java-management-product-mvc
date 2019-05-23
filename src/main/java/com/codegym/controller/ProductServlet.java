@@ -73,6 +73,11 @@ public class ProductServlet extends HttpServlet {
         RequestDispatcher dispatcher;
         if (product == null) {
             dispatcher = request.getRequestDispatcher("error.jsp");
+            try {
+                dispatcher.forward(request,response);
+            } catch (ServletException | IOException e) {
+                e.printStackTrace();
+            }
         } else {
             this.productService.remove(id);
         }
@@ -98,7 +103,7 @@ public class ProductServlet extends HttpServlet {
             product.setPrice(price);
             product.setDescribe(describe);
             product.setProducer(producer);
-            this.productService.update(id, product);
+//            this.productService.update(product);
             request.setAttribute("product", product);
             request.setAttribute("message", "Product information was update");
             dispatcher = request.getRequestDispatcher("product/edit.jsp");
